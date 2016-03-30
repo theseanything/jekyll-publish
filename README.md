@@ -1,7 +1,6 @@
-# jekyll-publish
+# jekyll-publish [![Gem Version](https://badge.fury.io/rb/jekyll-publish.svg)](https://badge.fury.io/rb/jekyll-publish)
 The publish plugin for Jekyll to allow easy push of static site files to web hosting services.
 Currently only AWS S3 is supported, but are more coming!
-[![Gem Version](https://badge.fury.io/rb/jekyll-publish.svg)](https://badge.fury.io/rb/jekyll-publish)
 
 ## Publish to S3
 The publish command simply pushes all of the HTML, CSS, JS and XML files with the \_site folder to a specified S3 bucket. Fear not, there is the ability to specify other file types to push too.
@@ -16,6 +15,7 @@ Within your \_config.yml file add:
 # Publish settings
 bucket_name: <your_bucket_name>
 aws_region: <aws_region>
+include_file_extensions: <comma_seperated_file_extensions> #optional
 ```
 then you can simply use:
 ```bash
@@ -38,4 +38,4 @@ There are alternatives such as [s3_website](https://github.com/laurilehmijoki/s3
 Contributions more than welcome!
 
 ## Why can't I specify AWS Credentials in \_config.yml?
-For safety's sake. Having AWS credentials floating around is risky and to prevent you accidentally pushing them to public repository.
+For safety's sake. Prevent AWS credentials floating around and making their way to public repositories.
