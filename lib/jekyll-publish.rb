@@ -22,10 +22,16 @@ class Publish < Jekyll::Command
       end
     end
 
-    def upload_to_s3(region, bucket_name)
+    def find_files(options)
       Dir.chdir("./_site")
+      extensions = "html,css,js,xml,#{options['include_file_extension']}"
+      file_regex = "./**/*.{#{extensions}}"
+      return Dir[file_regex]
+    end
+
+    def upload_to_s3(region, bucket_name, files)
       s3 = Aws::S3::Resource.new(region: region)
-      Dir['./**/*.{html,css,js,xml}'].each do |file|
+      files.each do |file|
         key = file[2..-1]
         puts "Uploading -> #{key}"
         obj = s3.bucket(bucket_name).object(key)
@@ -39,14 +45,16 @@ class Publish < Jekyll::Command
         c.description 'Publish Jekyll site to AWS S3.'
 
         c.option 'region', '-r AWS_REGION', 'Region with the S3 Bucket.'
-        c.option 'bucket_name', '-b BUCKET_NAME', 'Region with the S3 Bucket.'
+        c.option 'bucket_name', '-b BUCKET_NAME', 'Name of the S3 Bucket'
+        c.option 'include_file_extension', '-e FILE_EXTENSION', 'Additionally uploads files with specified extension'
 
         c.action do |args, options|
           region = set_aws_region options
           bucket_name = set_bucket_name options
           puts "AWS Region: #{region}"
           puts "AWS Bucket Name: #{bucket_name}"
-          upload_to_s3 region, bucket_name
+          files = find_files options
+          upload_to_s3 region, bucket_name, files
           puts "Done!"
         end
       end

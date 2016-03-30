@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email       = 'srdeveloper@icloud.com'
   s.files       = ["lib/jekyll-publish.rb"]
   s.homepage    =
-    'http://rubygems.org/gems/jekyll_publish'
+    'https://github.com/theseanything/jekyll-publish'
   s.license     = 'MIT'
   s.add_runtime_dependency 'aws-sdk', '>=2.0.0'
 end
