@@ -11,4 +11,9 @@ Gem::Specification.new do |s|
     'https://github.com/theseanything/jekyll-publish'
   s.license     = 'MIT'
   s.add_runtime_dependency 'aws-sdk', '>=2.0.0'
+  s.add_runtime_dependency "jekyll", ">= 3.1"
+
+  s.add_development_dependency "rspec", "~> 3.0"
+  s.add_development_dependency "rake", "~> 10.0"
+  s.add_development_dependency "bundler", "~> 1.6"
 end
