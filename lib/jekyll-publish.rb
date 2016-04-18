@@ -1,13 +1,14 @@
 require 'aws-sdk'
 class Publish < Jekyll::Command
   class << self
+    attr_accessor :config
     def get_aws_region()
       if @config['aws_region'].to_s != ''
         region = @config['aws_region']
         Jekyll.logger.info "AWS Region:", region
         return region
       else
-        raise "No region defined - use -r AWS_REGION or set aws_region: AWS_REGION in _config.yml"
+        raise "No region defined - use -r AWS_REGION or set \"aws_region: AWS_REGION\" in _config.yml"
       end
     end
 
@@ -17,20 +18,25 @@ class Publish < Jekyll::Command
         Jekyll.logger.info "AWS Bucket Name:", bucket_name
         return bucket_name
       else
-        raise "No bucket_name defined - use -b BUCKET_NAME or set bucket_name: BUCKET_NAME in _config.yml"
+        raise "No bucket_name defined - use -b BUCKET_NAME or set \"bucket_name: BUCKET_NAME\" in _config.yml"
       end
     end
 
     def get_files()
-      Dir.chdir("./_site")
       if @config['include_file_extensions'].to_s != ''
         extensions = "html,css,js,xml,#{@config['include_file_extensions']}"
       else
         extensions = "html,css,js,xml"
       end
       Jekyll.logger.info "File Extensions:", extensions
-      file_regex = "./**/*.{#{extensions}}"
+      file_regex = "./_site/**/*.{#{extensions}}"
       return Dir[file_regex]
+    end
+
+    def verify_bucket(region, bucket_name)
+    end
+
+    def create_bucket()
     end
 
     def upload_to_s3(region, bucket_name, files)
@@ -53,12 +59,13 @@ class Publish < Jekyll::Command
 
         c.option 'aws_region', '-r AWS_REGION', 'Region with the S3 Bucket.'
         c.option 'bucket_name', '-b BUCKET_NAME', 'Name of the S3 Bucket'
-        c.option 'include_file_extensions', '-e FILE_EXTENSION', 'Additionally uploads files with specified extension'
+        c.option 'include_file_extensions', '-e FILE_EXTENSION', 'Includes files with specified extension'
 
         c.action do |args, options|
           @config = configuration_from_options options
           region = get_aws_region
           bucket_name = get_bucket_name
+          #run the build command. Must get files from the defined destination path - may not always be _site.
           files = get_files
           upload_to_s3 region, bucket_name, files
         end
