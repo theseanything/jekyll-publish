@@ -99,4 +99,19 @@ describe Publish do
       end
     end
   end
+
+  describe ".verify_bucket" do
+    before do
+      Aws.config[:s3] = {
+        stub_responses: {
+          head_bucket: Aws::S3::Types::Bucket.new(name: 'existing_bucket')
+        }
+      }
+    end
+    context "given existing bucket name" do
+      it "return true" do
+        puts @publish.verify_bucket("eu-west-1", "existing_bucket")
+      end
+    end
+  end
 end

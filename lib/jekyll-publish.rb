@@ -34,6 +34,9 @@ class Publish < Jekyll::Command
     end
 
     def verify_bucket(region, bucket_name)
+      s3 = Aws::S3::Resource.new(region: region)
+      bucket = s3.bucket(bucket_name)
+      return bucket.exists?
     end
 
     def create_bucket()
