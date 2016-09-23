@@ -1,4 +1,4 @@
-# jekyll-publish [![Gem Version](https://badge.fury.io/rb/jekyll-publish.svg)](https://badge.fury.io/rb/jekyll-publish)
+# jekyll-publish [![Gem Version](https://badge.fury.io/rb/jekyll-publish.svg)](https://badge.fury.io/rb/jekyll-publish)[![Build Status](https://travis-ci.org/theseanything/jekyll-publish.svg?branch=master)](https://travis-ci.org/theseanything/jekyll-publish)
 The publish plugin for Jekyll to allow easy push of static site files to web hosting services.
 Currently only AWS S3 is supported, but are more coming!
 
